@@ -20,8 +20,8 @@
 
 #define LED_PIN 2
 #define BAUD 115200
-#define RXPIN 18 // Connected to ESP2 "ESPNOW RECEIVER"
-#define TXPIN 19 // Connected to ESP2 "ESPNOW RECEIVER"
+#define RXPIN 16 // Connected to ESP2 "ESPNOW RECEIVER"
+#define TXPIN 17 // Connected to ESP2 "ESPNOW RECEIVER"
 
 
 #define MQTT_RETAIN true

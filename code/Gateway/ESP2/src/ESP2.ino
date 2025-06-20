@@ -3,10 +3,10 @@
 #include <WiFi.h>
 #include <esp_wifi.h> // only for esp_wifi_set_channel()
 
-#define LED_PIN 2
+#define LED_PIN 15
 #define BAUD 115200
-#define RXPIN 18
-#define TXPIN 19
+#define RXPIN 17
+#define TXPIN 16
 
 unsigned long LedStartTime = 0;
 
@@ -30,9 +30,21 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *incomingData, in
     LedStartTime = millis(); 
 }
 
+void ActivateExternalAntena() {
+  pinMode(WIFI_ENABLE, OUTPUT); // pinMode(3, OUTPUT);
+  digitalWrite(WIFI_ENABLE, LOW); // digitalWrite(3, LOW); // Activate RF switch control
 
+  delay(100);
+
+  pinMode(WIFI_ANT_CONFIG, OUTPUT); // pinMode(14, OUTPUT);
+  digitalWrite(WIFI_ANT_CONFIG, HIGH); // digitalWrite(14, HIGH); // Use external antenna
+} 
 
 void setup() {
+
+  // First activate external antena
+  ActivateExternalAntena();
+
   Serial1.begin(BAUD, SERIAL_8N1, RXPIN, TXPIN); // Communication Between ESPs
   Serial.begin(115200); // Communication Between ESP2 and PC
   Serial.println();
@@ -57,7 +69,6 @@ void setup() {
 
 // the loop function runs over and over again forever
 void loop() {
-  
  
   if (millis() -  LedStartTime >= 100) {       // Turning OFF LED_PIN after 100ms
     digitalWrite(LED_PIN, HIGH);             // HIGH = LED is OFF    
